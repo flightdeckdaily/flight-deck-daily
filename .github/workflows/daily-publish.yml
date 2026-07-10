@@ -1,22 +1,25 @@
-name: Daily Publish
+name: Publish
 
 on:
-  schedule:
-    - cron: "0 6 * * *"
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   publish:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
 
-      - name: Publish daily post
-        run: node scripts/publish-queue.js
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run publish script
+        run: node polish-queue.js
