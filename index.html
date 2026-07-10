@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flight Deck Daily — Aviation, Filed Daily</title>
+  <meta name="description" content="A daily aviation blog for pilots and enthusiasts — news, aircraft explainers, career tips, history, and aviation English." />
+
+  <meta property="og:title" content="Flight Deck Daily — Aviation, Filed Daily" />
+  <meta property="og:description" content="A daily aviation blog for pilots and enthusiasts — news, aircraft explainers, career tips, history, and aviation English." />
+  <meta property="og:image" content="/assets/og-image.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">FDD</div>
+      <div>
+        <div class="brand-eyebrow mono">FLIGHTDECKDAILY // BLOG</div>
+        <div class="brand-title">Flight Deck Daily</div>
+      </div>
+    </div>
+    <div class="header-links mono">
+      <a href="https://instagram.com/FlightDeckDaily" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div class="eyebrow mono">DAILY DISPATCHES FROM THE FLIGHT DECK</div>
+      <h1>Aviation, filed daily.</h1>
+      <p>News, aircraft explainers, career tips, history, and aviation English — for pilots and the people who dream of joining them.</p>
+    </div>
+
+    <div id="post-list" class="post-list">
+      <div class="empty-state">Loading posts…</div>
+    </div>
+  </main>
+
+  <footer>
+    Flight Deck Daily · Follow on <a href="https://instagram.com/FlightDeckDaily" target="_blank" rel="noopener">Instagram @FlightDeckDaily</a>
+  </footer>
+
+  <script>
+    async function loadPosts() {
+      const container = document.getElementById('post-list');
+      try {
+        const res = await fetch('posts.json');
+        const posts = await res.json();
+        if (!posts.length) {
+          container.innerHTML = '<div class="empty-state">No posts filed yet.</div>';
+          return;
+        }
+        // newest first
+        posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        container.innerHTML = posts.map(p => `
+          <a class="post-card" href="post.html?slug=${encodeURIComponent(p.slug)}">
+            <div class="meta">
+              <span class="id">${p.id}</span>
+              <span>·</span>
+              <span>${p.beat}</span>
+              <span>·</span>
+              <span>${new Date(p.date).toLocaleDateString(undefined, { month: 'short', day: '2-digit', year: 'numeric' })}</span>
+            </div>
+            <h2>${p.title}</h2>
+            <p class="excerpt">${p.excerpt}</p>
+            <div class="tags">
+              ${(p.tags || []).map(t => `<span class="tag">#${t}</span>`).join('')}
+            </div>
+          </a>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = '<div class="empty-state">Couldn\'t load posts. Check posts.json is valid.</div>';
+      }
+    }
+    loadPosts();
+  </script>
+</body>
+</html>

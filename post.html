@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Flight Deck Daily</title>
+  <meta id="meta-description" name="description" content="" />
+
+  <meta id="og-title" property="og:title" content="" />
+  <meta id="og-description" property="og:description" content="" />
+  <meta property="og:image" content="/assets/og-image.png" />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">FDD</div>
+      <div>
+        <div class="brand-eyebrow mono">FLIGHTDECKDAILY // BLOG</div>
+        <div class="brand-title">Flight Deck Daily</div>
+      </div>
+    </div>
+    <div class="header-links mono">
+      <a href="https://instagram.com/FlightDeckDaily" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </header>
+
+  <main>
+    <a class="back-link" href="index.html">&larr; All posts</a>
+    <div id="post-detail" class="post-detail">
+      <div class="empty-state">Loading…</div>
+    </div>
+  </main>
+
+  <footer>
+    Flight Deck Daily · Follow on <a href="https://instagram.com/FlightDeckDaily" target="_blank" rel="noopener">Instagram @FlightDeckDaily</a>
+  </footer>
+
+  <script>
+    async function loadPost() {
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('slug');
+      const container = document.getElementById('post-detail');
+
+      try {
+        const res = await fetch('posts.json');
+        const posts = await res.json();
+        const post = posts.find(p => p.slug === slug);
+
+        if (!post) {
+          container.innerHTML = '<div class="empty-state">Post not found.</div>';
+          return;
+        }
+
+        document.getElementById('page-title').textContent = post.title + ' — Flight Deck Daily';
+        document.getElementById('meta-description').setAttribute('content', post.excerpt);
+        document.getElementById('og-title').setAttribute('content', post.title);
+        document.getElementById('og-description').setAttribute('content', post.excerpt);
+
+        container.innerHTML = `
+          <div class="meta">${post.id} · ${post.beat} · ${new Date(post.date).toLocaleDateString(undefined, { month: 'short', day: '2-digit', year: 'numeric' })}</div>
+          <h1>${post.title}</h1>
+          <div class="body">${post.body}</div>
+          <div class="tags">
+            ${(post.tags || []).map(t => `<span class="tag">#${t}</span>`).join('')}
+          </div>
+        `;
+      } catch (e) {
+        container.innerHTML = '<div class="empty-state">Couldn\'t load this post.</div>';
+      }
+    }
+    loadPost();
+  </script>
+</body>
+</html>
