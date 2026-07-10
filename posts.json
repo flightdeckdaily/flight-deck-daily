@@ -6,8 +6,28 @@
     "type": "Letter",
     "beat": "From the Desk",
     "date": "2026-07-10",
-    "tags": ["aviation", "pilot-training", "aviation-blog"],
+    "tags": [
+      "aviation",
+      "pilot-training",
+      "aviation-blog"
+    ],
     "excerpt": "Every pilot's journey starts the same way: staring up at the sky, wondering what it takes to get up there. This blog exists for that curiosity.",
     "body": "Every pilot's journey starts the same way: staring up at the sky, wondering what it takes to get up there. This blog exists for that curiosity — and for everyone already living it.\n\nFlight Deck Daily is a daily dispatch on everything aviation. Some days that means breaking down how turbulence actually works and why it's rarely dangerous. Other days it's a look back at a moment in aviation history that changed how we fly. And some days it's practical — exam tips, career paths, the aviation English phrases that trip up even confident pilots.\n\nThe goal is simple: give pilots, trainees, and aviation enthusiasts something worth reading every single day. No fluff, no recycled listicles — just clear, useful, genuinely interesting aviation content.\n\nHere's what you can expect on rotation:\n\nNews & Industry — what's actually happening in commercial and general aviation, explained simply.\n\nAircraft Explainers — how the machines work, from the physics of lift to the systems inside a modern cockpit.\n\nCareer & Training — the real path from student pilot to the flight deck, including the parts nobody tells you about.\n\nAviation History — the flights, failures, and breakthroughs that built the industry you're stepping into.\n\nAviation English — the terminology and radio phraseology that matters when you're actually flying.\n\nWhether you're deep into your training, dreaming about your first solo, or just fascinated by how a 400-ton aircraft gets off the ground — you're in the right place.\n\nNew post daily. Follow along, and if you want more bite-sized aviation content in between, find us on Instagram @FlightDeckDaily.\n\nRunway to cockpit — everything in between. Let's fly."
+  },
+  {
+    "id": "FDD-002",
+    "slug": "boeing-s-737-max-7-is-finally-weeks-away-from-faa-certification-13-years-after-launch",
+    "title": "Boeing's 737 MAX 7 Is Finally Weeks Away From FAA Certification — 13 Years After Launch",
+    "type": "News",
+    "beat": "News & Industry",
+    "date": "2026-07-10",
+    "tags": [
+      "boeing",
+      "faa",
+      "737-max",
+      "southwest-airlines"
+    ],
+    "excerpt": "After more than a decade of delays, Boeing's smallest MAX variant could receive FAA certification before the end of July 2026.",
+    "body": "Boeing is reportedly only weeks away from finally securing Federal Aviation Administration certification for its 737 MAX 7, according to a new Wall Street Journal report citing people familiar with the matter. If the timeline holds, certification could land before the end of July 2026.\nTo put that timeline in context: the MAX 7 was officially launched all the way back in May 2013, with Southwest Airlines confirmed as the launch customer. Southwest became the first airline to order the jet, with delivery of the first aircraft originally scheduled for 2019. Seven years past that original delivery date, the aircraft that once promised so much is only now approaching the finish line.\nThe delay says as much about the broader MAX program's turbulent decade as it does about this specific variant. The 737 MAX family has faced intense regulatory scrutiny since 2019, and Boeing has had to rebuild both its certification processes and its credibility with the FAA in the years since. The MAX 7 has simply been last in line.\nOnce certified, the MAX 7 will be powered exclusively by CFM International LEAP-1B engines and is designed to carry up to 172 passengers in a single-class configuration, with a maximum range of around 3,800 nautical miles. That puts it in direct competition with two Airbus narrowbodies: the A220-300, which carries up to 160 passengers, and the larger A320neo, seating up to 194. If Airbus moves ahead with a rumored stretched A220-500 variant carrying up to 180 passengers, the competitive squeeze in this segment of the market will only intensify.\nThe MAX 7 isn't the only member of the family still waiting on approval. Boeing's largest variant, the 737-10, is also in the final stages of FAA certification. FAA Deputy Administrator Chris Rocheleau has described that process as essentially down to the finer details — \"dotting i's and crossing t's\" — suggesting it, too, is close.\nFor pilots and aspiring pilots watching the narrowbody market, this matters beyond the headline. Certification timelines like this affect fleet planning at carriers like Southwest, hiring pipelines tied to fleet growth, and the broader pace at which airlines can replace older aircraft. A MAX 7 certification this summer would close out one of the longest-running sagas in recent Boeing history — and clear the runway, so to speak, for the 737-10 to follow."
   }
 ]
