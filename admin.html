@@ -76,6 +76,11 @@
       </div>
 
       <div class="field">
+        <label>PUBLISH DATE (leave as today to publish immediately, or pick a future date to queue it)</label>
+        <input type="date" id="publish-date" />
+      </div>
+
+      <div class="field">
         <label>TITLE</label>
         <input type="text" id="title" placeholder="A specific, concrete headline" />
       </div>
@@ -142,10 +147,17 @@
       document.getElementById('admin-form').style.display = 'block';
     }
 
+    // default the date field to today
+    document.getElementById('publish-date').value = new Date().toISOString().split('T')[0];
+
     async function publish() {
       const btn = document.getElementById('publish-btn');
       const status = document.getElementById('status');
       const password = sessionStorage.getItem('fdd_admin_pw');
+
+      const publishDate = document.getElementById('publish-date').value;
+      const today = new Date().toISOString().split('T')[0];
+      const isFuture = publishDate && publishDate > today;
 
       const post = {
         title: document.getElementById('title').value.trim(),
@@ -155,6 +167,7 @@
         tags: document.getElementById('tags').value,
         excerpt: document.getElementById('excerpt').value.trim(),
         body: document.getElementById('body').value.trim(),
+        date: publishDate || today,
       };
 
       if (!post.title || !post.body) {
@@ -169,7 +182,7 @@
       status.className = '';
 
       try {
-        const res = await fetch('/api/publish', {
+        const res = await fetch(isFuture ? '/api/queue' : '/api/publish', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ password, post }),
@@ -180,7 +193,9 @@
           status.textContent = data.error || 'Something went wrong.';
           status.className = 'err';
         } else {
-          status.textContent = `Filed as ${data.id}. It'll be live in a few seconds after Vercel redeploys.`;
+          status.textContent = isFuture
+            ? `Queued for ${post.date}. It'll auto-publish that day.`
+            : `Filed as ${data.id}. It'll be live in a few seconds after Vercel redeploys.`;
           status.className = 'ok';
           document.getElementById('title').value = '';
           document.getElementById('slug').value = '';
