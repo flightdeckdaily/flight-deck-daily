@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flight Deck Daily — Aviation, Filed Daily</title>
-  <meta name="description" content="A daily aviation blog for pilots and enthusiasts — news, aircraft explainers, career tips, history, and aviation English." />
+  <title>Flight Deck Daily — Aviation Magazine</title>
+  <meta name="description" content="An aviation magazine covering news, reports, letters, and blogs for pilots and enthusiasts." />
 
-  <meta property="og:title" content="Flight Deck Daily — Aviation, Filed Daily" />
-  <meta property="og:description" content="A daily aviation blog for pilots and enthusiasts — news, aircraft explainers, career tips, history, and aviation English." />
+  <meta property="og:title" content="Flight Deck Daily — Aviation Magazine" />
+  <meta property="og:description" content="An aviation magazine covering news, reports, letters, and blogs for pilots and enthusiasts." />
   <meta property="og:image" content="/assets/og-image.png" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -19,25 +19,28 @@
     <div class="brand">
       <div class="brand-mark">FDD</div>
       <div>
-        <div class="brand-eyebrow mono">FLIGHTDECKDAILY // BLOG</div>
+        <div class="brand-eyebrow mono">FLIGHTDECKDAILY // MAGAZINE</div>
         <div class="brand-title">Flight Deck Daily</div>
       </div>
     </div>
-    <div class="header-links mono">
+    <nav class="header-links mono">
+      <a href="#news">News</a>
+      <a href="#reports">Reports</a>
+      <a href="#letters">Letters</a>
+      <a href="#blog">Blog</a>
       <a href="https://instagram.com/FlightDeckDaily" target="_blank" rel="noopener">Instagram</a>
-    </div>
+    </nav>
   </header>
 
   <main>
     <div class="hero">
-      <div class="eyebrow mono">DAILY DISPATCHES FROM THE FLIGHT DECK</div>
-      <h1>Aviation, filed daily.</h1>
-      <p>News, aircraft explainers, career tips, history, and aviation English — for pilots and the people who dream of joining them.</p>
+      <div class="eyebrow mono">AVIATION, COVERED PROPERLY</div>
+      <h1>The magazine for the flight deck and everyone headed there.</h1>
+      <p>News, reports, letters, and blogs — for pilots, trainees, and aviation enthusiasts.</p>
     </div>
 
-    <div id="post-list" class="post-list">
-      <div class="empty-state">Loading posts…</div>
-    </div>
+    <div id="featured-wrap"></div>
+    <div id="sections-wrap"></div>
   </main>
 
   <footer>
@@ -45,35 +48,91 @@
   </footer>
 
   <script>
+    const SECTIONS = [
+      { key: 'News', id: 'news', label: 'News' },
+      { key: 'Report', id: 'reports', label: 'Reports' },
+      { key: 'Letter', id: 'letters', label: 'Letters' },
+      { key: 'Blog', id: 'blog', label: 'Blog' },
+    ];
+
+    function fmtDate(d) {
+      return new Date(d).toLocaleDateString(undefined, { month: 'short', day: '2-digit', year: 'numeric' });
+    }
+
+    function cardHTML(p) {
+      return `
+        <a class="post-card" href="post.html?slug=${encodeURIComponent(p.slug)}">
+          <div class="meta">
+            <span class="id">${p.id}</span>
+            <span>·</span>
+            <span>${p.beat}</span>
+            <span>·</span>
+            <span>${fmtDate(p.date)}</span>
+          </div>
+          <h2>${p.title}</h2>
+          <p class="excerpt">${p.excerpt}</p>
+          <div class="tags">
+            ${(p.tags || []).map(t => `<span class="tag">#${t}</span>`).join('')}
+          </div>
+        </a>
+      `;
+    }
+
+    function featuredHTML(p) {
+      return `
+        <a class="featured-card" href="post.html?slug=${encodeURIComponent(p.slug)}">
+          <div class="featured-tag mono">FEATURED · ${p.type.toUpperCase()}</div>
+          <h2>${p.title}</h2>
+          <p>${p.excerpt}</p>
+          <div class="meta">
+            <span class="id">${p.id}</span>
+            <span>·</span>
+            <span>${p.beat}</span>
+            <span>·</span>
+            <span>${fmtDate(p.date)}</span>
+          </div>
+        </a>
+      `;
+    }
+
     async function loadPosts() {
-      const container = document.getElementById('post-list');
+      const featuredWrap = document.getElementById('featured-wrap');
+      const sectionsWrap = document.getElementById('sections-wrap');
+
       try {
         const res = await fetch('posts.json');
         const posts = await res.json();
+
         if (!posts.length) {
-          container.innerHTML = '<div class="empty-state">No posts filed yet.</div>';
+          sectionsWrap.innerHTML = '<div class="empty-state">No posts filed yet.</div>';
           return;
         }
-        // newest first
+
         posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-        container.innerHTML = posts.map(p => `
-          <a class="post-card" href="post.html?slug=${encodeURIComponent(p.slug)}">
-            <div class="meta">
-              <span class="id">${p.id}</span>
-              <span>·</span>
-              <span>${p.beat}</span>
-              <span>·</span>
-              <span>${new Date(p.date).toLocaleDateString(undefined, { month: 'short', day: '2-digit', year: 'numeric' })}</span>
-            </div>
-            <h2>${p.title}</h2>
-            <p class="excerpt">${p.excerpt}</p>
-            <div class="tags">
-              ${(p.tags || []).map(t => `<span class="tag">#${t}</span>`).join('')}
-            </div>
-          </a>
-        `).join('');
+
+        featuredWrap.innerHTML = featuredHTML(posts[0]);
+
+        const rest = posts.slice(1);
+        let sectionsHTML = '';
+
+        SECTIONS.forEach(section => {
+          const items = rest.filter(p => p.type === section.key);
+          if (!items.length) return;
+          sectionsHTML += `
+            <section id="${section.id}" class="mag-section">
+              <div class="section-header">
+                <h3>${section.label}</h3>
+              </div>
+              <div class="post-list">
+                ${items.map(cardHTML).join('')}
+              </div>
+            </section>
+          `;
+        });
+
+        sectionsWrap.innerHTML = sectionsHTML || '<div class="empty-state">More sections will appear here as you publish.</div>';
       } catch (e) {
-        container.innerHTML = '<div class="empty-state">Couldn\'t load posts. Check posts.json is valid.</div>';
+        sectionsWrap.innerHTML = '<div class="empty-state">Couldn\'t load posts. Check posts.json is valid.</div>';
       }
     }
     loadPosts();

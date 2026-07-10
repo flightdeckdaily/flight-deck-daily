@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Flight Deck Daily</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .admin-wrap { max-width: 640px; }
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      background: var(--panel);
+      border: 1px solid var(--divider);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      box-sizing: border-box;
+    }
+    .field textarea { resize: vertical; line-height: 1.6; }
+    .publish-btn {
+      background: var(--amber);
+      color: var(--bg);
+      border: none;
+      border-radius: 6px;
+      padding: 12px 20px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .publish-btn:disabled { background: var(--divider); color: var(--muted); cursor: default; }
+    #status { margin-top: 16px; font-size: 14px; }
+    #status.ok { color: var(--steel); }
+    #status.err { color: #D9695B; }
+    #lock-screen { max-width: 360px; margin: 80px auto 0; text-align: center; }
+    #lock-screen input { margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">FDD</div>
+      <div>
+        <div class="brand-eyebrow mono">FLIGHTDECKDAILY // ADMIN</div>
+        <div class="brand-title">Publish desk</div>
+      </div>
+    </div>
+    <div class="header-links mono">
+      <a href="index.html">View site</a>
+    </div>
+  </header>
+
+  <main>
+    <div id="lock-screen">
+      <div class="field">
+        <label for="password">ADMIN PASSWORD</label>
+        <input type="password" id="password" />
+      </div>
+      <button class="publish-btn" onclick="unlock()">Unlock</button>
+    </div>
+
+    <div id="admin-form" class="admin-wrap" style="display:none;">
+      <div class="hero" style="margin-bottom:32px;">
+        <div class="eyebrow mono">NEW FILING</div>
+        <h1 style="font-size:28px;">Publish a post</h1>
+      </div>
+
+      <div class="field">
+        <label>TITLE</label>
+        <input type="text" id="title" placeholder="A specific, concrete headline" />
+      </div>
+
+      <div class="field">
+        <label>SLUG (optional — auto-generated from title if left blank)</label>
+        <input type="text" id="slug" placeholder="my-post-title" />
+      </div>
+
+      <div class="field">
+        <label>TYPE (magazine section)</label>
+        <select id="type">
+          <option>Blog</option>
+          <option>News</option>
+          <option>Report</option>
+          <option>Letter</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>BEAT (sub-topic label)</label>
+        <select id="beat">
+          <option>News & Industry</option>
+          <option>Aircraft Explainer</option>
+          <option>Career & Training</option>
+          <option>Aviation History</option>
+          <option>Aviation English</option>
+          <option>Flight Deck Daily</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>TAGS (comma separated)</label>
+        <input type="text" id="tags" placeholder="aviation, aircraft-systems, aerodynamics" />
+      </div>
+
+      <div class="field">
+        <label>EXCERPT (optional — auto-generated from body if left blank)</label>
+        <input type="text" id="excerpt" placeholder="One or two sentence teaser" />
+      </div>
+
+      <div class="field">
+        <label>BODY (paragraphs separated by a blank line)</label>
+        <textarea id="body" rows="16"></textarea>
+      </div>
+
+      <button class="publish-btn" id="publish-btn" onclick="publish()">File to manifest</button>
+      <div id="status"></div>
+    </div>
+  </main>
+
+  <script>
+    function unlock() {
+      const pw = document.getElementById('password').value;
+      if (!pw) return;
+      sessionStorage.setItem('fdd_admin_pw', pw);
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('admin-form').style.display = 'block';
+    }
+
+    // auto-unlock if password already entered this session
+    if (sessionStorage.getItem('fdd_admin_pw')) {
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('admin-form').style.display = 'block';
+    }
+
+    async function publish() {
+      const btn = document.getElementById('publish-btn');
+      const status = document.getElementById('status');
+      const password = sessionStorage.getItem('fdd_admin_pw');
+
+      const post = {
+        title: document.getElementById('title').value.trim(),
+        slug: document.getElementById('slug').value.trim(),
+        type: document.getElementById('type').value,
+        beat: document.getElementById('beat').value,
+        tags: document.getElementById('tags').value,
+        excerpt: document.getElementById('excerpt').value.trim(),
+        body: document.getElementById('body').value.trim(),
+      };
+
+      if (!post.title || !post.body) {
+        status.textContent = 'Title and body are required.';
+        status.className = 'err';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Filing…';
+      status.textContent = '';
+      status.className = '';
+
+      try {
+        const res = await fetch('/api/publish', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password, post }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          status.textContent = data.error || 'Something went wrong.';
+          status.className = 'err';
+        } else {
+          status.textContent = `Filed as ${data.id}. It'll be live in a few seconds after Vercel redeploys.`;
+          status.className = 'ok';
+          document.getElementById('title').value = '';
+          document.getElementById('slug').value = '';
+          document.getElementById('tags').value = '';
+          document.getElementById('excerpt').value = '';
+          document.getElementById('body').value = '';
+        }
+      } catch (e) {
+        status.textContent = 'Network error — try again.';
+        status.className = 'err';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'File to manifest';
+      }
+    }
+  </script>
+</body>
+</html>

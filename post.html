@@ -61,7 +61,7 @@
         document.getElementById('og-description').setAttribute('content', post.excerpt);
 
         container.innerHTML = `
-          <div class="meta">${post.id} · ${post.beat} · ${new Date(post.date).toLocaleDateString(undefined, { month: 'short', day: '2-digit', year: 'numeric' })}</div>
+          <div class="meta">${post.id} · ${post.type || 'Blog'} · ${post.beat} · ${new Date(post.date).toLocaleDateString(undefined, { month: 'short', day: '2-digit', year: 'numeric' })}</div>
           <h1>${post.title}</h1>
           <div class="body">${post.body}</div>
           <div class="tags">

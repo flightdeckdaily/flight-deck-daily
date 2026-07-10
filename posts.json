@@ -3,20 +3,11 @@
     "id": "FDD-001",
     "slug": "welcome-to-flight-deck-daily",
     "title": "Welcome to Flight Deck Daily — Aviation, Filed Daily",
-    "beat": "Flight Deck Daily",
+    "type": "Letter",
+    "beat": "From the Desk",
     "date": "2026-07-10",
     "tags": ["aviation", "pilot-training", "aviation-blog"],
     "excerpt": "Every pilot's journey starts the same way: staring up at the sky, wondering what it takes to get up there. This blog exists for that curiosity.",
     "body": "Every pilot's journey starts the same way: staring up at the sky, wondering what it takes to get up there. This blog exists for that curiosity — and for everyone already living it.\n\nFlight Deck Daily is a daily dispatch on everything aviation. Some days that means breaking down how turbulence actually works and why it's rarely dangerous. Other days it's a look back at a moment in aviation history that changed how we fly. And some days it's practical — exam tips, career paths, the aviation English phrases that trip up even confident pilots.\n\nThe goal is simple: give pilots, trainees, and aviation enthusiasts something worth reading every single day. No fluff, no recycled listicles — just clear, useful, genuinely interesting aviation content.\n\nHere's what you can expect on rotation:\n\nNews & Industry — what's actually happening in commercial and general aviation, explained simply.\n\nAircraft Explainers — how the machines work, from the physics of lift to the systems inside a modern cockpit.\n\nCareer & Training — the real path from student pilot to the flight deck, including the parts nobody tells you about.\n\nAviation History — the flights, failures, and breakthroughs that built the industry you're stepping into.\n\nAviation English — the terminology and radio phraseology that matters when you're actually flying.\n\nWhether you're deep into your training, dreaming about your first solo, or just fascinated by how a 400-ton aircraft gets off the ground — you're in the right place.\n\nNew post daily. Follow along, and if you want more bite-sized aviation content in between, find us on Instagram @FlightDeckDaily.\n\nRunway to cockpit — everything in between. Let's fly."
-  },
-  {
-  "id": "FDD-002",
-  "slug": "why-winglets-exist",
-  "title": "Those Wingtip Curves Aren't Just Style — Here's What They Actually Do",
-  "beat": "Aircraft Explainer",
-  "date": "2026-07-11",
-  "tags": ["aircraft-systems", "aerodynamics", "fuel-efficiency"],
-  "excerpt": "Winglets aren't decoration. They're solving a specific, expensive problem created the moment a wing generates lift.",
-  "body": "Look at almost any modern airliner and you'll notice the wingtips don't just end flat — they curve upward, sometimes sharply, sometimes in a blended sweep. Those are winglets, and they exist to solve a very specific, very expensive problem.\n\nHere's the problem: when a wing generates lift, high-pressure air underneath tries to escape around the tip toward the low-pressure air on top. That escaping air rolls into a spinning vortex trailing behind each wingtip. It looks dramatic in humid-air photos — a visible spiral peeling off the tip — but the real cost is invisible. That vortex represents energy the engines paid for and never got useful lift from. It's pure waste, and it's called induced drag.\n\nInduced drag is worst exactly when it hurts most: takeoff and climb, when the wing is working hardest and fuel burn is already high. Left unmanaged, this drag can account for a meaningful chunk of an aircraft's total fuel consumption over a flight.\n\nWinglets attack the problem geometrically. By turning the wingtip upward, they disrupt how cleanly that pressure differential can roll into a vortex, effectively making the wing behave as if it were longer and more efficient without the structural weight and gate-size penalty of actually extending it. Airlines care about this a lot — Boeing has stated that winglets can cut fuel burn by several percent on longer flights, which at fleet scale translates into serious annual savings.\n\nThat's also why you'll see such different winglet shapes across aircraft: blended winglets, split scimitars, raked tips. Each is an engineering trade-off between drag reduction, structural loads on the wing spar, and how much span an airport gate can physically accommodate.\n\nSo next time you're in a window seat and you see that upward curve, you're not looking at styling. You're looking at an aerodynamics team's answer to a vortex that would otherwise be quietly burning the airline's money on every single flight."
-}
+  }
 ]

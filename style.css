@@ -108,6 +108,74 @@ main {
   margin: 0;
 }
 
+.header-links a { margin-left: 4px; }
+.header-links a:not(:last-child) { margin-right: 6px; }
+
+.featured-card {
+  display: block;
+  background: linear-gradient(160deg, var(--panel) 0%, var(--panel-alt) 100%);
+  border: 1px solid var(--divider);
+  border-radius: 10px;
+  padding: 32px;
+  margin-bottom: 44px;
+  transition: border-color 0.15s ease;
+}
+
+.featured-card:hover { border-color: var(--amber); }
+
+.featured-tag {
+  font-size: 11px;
+  color: var(--amber);
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+}
+
+.featured-card h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+
+.featured-card p {
+  color: var(--steel);
+  font-size: 15px;
+  margin: 0 0 16px;
+}
+
+.featured-card .meta {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.featured-card .meta .id { color: var(--amber); font-weight: 700; }
+
+.mag-section {
+  margin-bottom: 48px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.section-header h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.section-header::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--divider);
+}
+
 .post-list {
   display: flex;
   flex-direction: column;
